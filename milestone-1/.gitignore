@@ -28,7 +28,6 @@ Thumbs.db
 
 # Model and embedding files
 *.bin
-*.txt
 *.vec
 *.model
 *.h5
