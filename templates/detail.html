@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row g-4">
+    <div class="col-12 col-lg-6">
+        <div class="ratio ratio-4x3 bg-light-subtle border">
+        <div class="d-flex h-100 w-100 align-items-center justify-content-center text-muted">No Image</div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-6">
+        <h1 class="h3">{{ p.title }}</h1>
+        <div class="text-muted mb-2">ID: {{ p.id }}</div>
+        <p class="lead">{{ p.description }}</p>
+        <div class="small text-muted">{{ p.division }} · {{ p.department }} · {{ p.class }}</div>
+
+
+        <!-- Future: add review form + model prediction here -->
+        <div class="alert alert-info mt-4">
+            Review submission & ML label will appear here in the next step.
+        </div>
+
+
+        <a href="/" class="btn btn-outline-secondary mt-2">Back to Browse</a>
+    </div>
+</div>
+{% endblock %}
