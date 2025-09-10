@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, abort
 from ..models.product_repo import ProductRepo
+from ..models.review_repo import ReviewRepo
 
 bp = Blueprint("catalog", __name__)
 
@@ -15,4 +16,5 @@ def item(id):
     p = repo.get(id)
     if not p:
         return abort(404)
-    return render_template("catalog/item_detail.html", p=p)
+    reviews = ReviewRepo().by_item(id)
+    return render_template("catalog/item_detail.html", p=p, reviews=reviews)

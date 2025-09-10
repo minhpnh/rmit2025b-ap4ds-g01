@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="h4 mb-3">Confirm Your Review</h1>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="mb-2"><strong>Item:</strong> {{ p.title }}</div>
+    <div class="mb-2"><strong>Title:</strong> {{ title }}</div>
+    <div class="mb-2"><strong>Rating:</strong> {{ rating }}/5</div>
+    <div class="mb-2"><strong>Description:</strong><br>{{ body }}</div>
+  </div>
+</div>
+
+<div class="alert alert-info">
+  Our suggestion: <strong>{{ 'Recommend' if suggested==1 else 'Do not recommend' }}</strong> (you can override)
+  </div>
+
+<form method="post" action="{{ url_for('reviews.create_review') }}" class="mb-3">
+  <input type="hidden" name="item_id" value="{{ p.id }}">
+  <input type="hidden" name="title" value="{{ title }}">
+  <input type="hidden" name="body" value="{{ body }}">
+  <input type="hidden" name="rating" value="{{ rating }}">
+  <input type="hidden" name="suggested" value="{{ suggested }}">
+
+  <div class="mb-3">
+    <label class="form-label">Do you recommend this item?</label>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="recommended" id="rec1" value="1" {% if suggested==1 %}checked{% endif %}>
+      <label class="form-check-label" for="rec1">Yes</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="recommended" id="rec0" value="0" {% if suggested==0 %}checked{% endif %}>
+      <label class="form-check-label" for="rec0">No</label>
+    </div>
+  </div>
+
+  <div class="d-flex gap-2">
+    <a href="{{ url_for('reviews.new_review') }}?item_id={{ p.id }}" class="btn btn-outline-secondary">Back</a>
+    <button type="submit" class="btn btn-success">Confirm and Save</button>
+  </div>
+</form>
+
+{% endblock %}
+

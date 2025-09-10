@@ -24,7 +24,29 @@
         </div>
 
 
-        <a href="{{ url_for('catalog.index') }}" class="btn btn-outline-secondary mt-2">Back to catalog</a>
+        <div class="d-flex gap-2 mt-2">
+            <a href="{{ url_for('catalog.index') }}" class="btn btn-outline-secondary">Back to catalog</a>
+            <a href="{{ url_for('reviews.new_review') }}?item_id={{ p.id }}" class="btn btn-primary">Write a review</a>
+        </div>
     </div>
 </div>
+<hr class="my-4">
+
+<h2 class="h5 mb-3">Customer Reviews</h2>
+
+{% if reviews and reviews|length > 0 %}
+    <div class="list-group">
+        {% for r in reviews %}
+            <a class="list-group-item list-group-item-action" href="{{ url_for('reviews.show', id=r.id) }}">
+                <div class="d-flex w-100 justify-content-between">
+                    <h3 class="h6 m-0">{{ r.title }}</h3>
+                    <small class="text-muted">{{ r.rating }}/5 · {{ 'Recommended' if r.recommended|int==1 else 'Not recommended' }}</small>
+                </div>
+                <p class="mb-1 text-muted">{{ r.body[:160] ~ ('...' if r.body|length > 160 else '') }}</p>
+            </a>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-secondary">No reviews yet. Be the first to review.</div>
+{% endif %}
 {% endblock %}

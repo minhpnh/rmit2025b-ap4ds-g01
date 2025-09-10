@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h4 m-0">Review</h1>
+  {% if p %}
+  <a href="{{ url_for('catalog.item', id=p.id) }}" class="btn btn-outline-secondary">Back to item</a>
+  {% endif %}
+  </div>
+
+<div class="card mb-3">
+  <div class="card-body">
+    {% if p %}
+    <div class="mb-2"><strong>Item:</strong> {{ p.title }}</div>
+    {% endif %}
+    <div class="mb-2"><strong>Title:</strong> {{ r.title }}</div>
+    <div class="mb-2"><strong>Rating:</strong> {{ r.rating }}/5</div>
+    <div class="mb-2"><strong>Recommended:</strong> {{ 'Yes' if r.recommended|int==1 else 'No' }} (model: {{ 'Yes' if r.predicted|int==1 else 'No' }})</div>
+    <div class="mb-2"><strong>Description:</strong><br>{{ r.body }}</div>
+    <div class="text-muted small">Review ID: {{ r.id }} · Created: {{ r.created_at }}</div>
+  </div>
+</div>
+
+{% endblock %}
+
