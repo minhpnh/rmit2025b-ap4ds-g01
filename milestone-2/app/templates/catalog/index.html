@@ -20,9 +20,14 @@
     <div class="col-12 col-sm-6 col-lg-4">
         <div class="card h-100">
             <div class="ratio ratio-4x3 bg-light-subtle border-bottom">
-                <div class="d-flex h-100 w-100 align-items-center justify-content-center text-muted">
-                    No Image
-                </div>
+                {% set img = p.title|img %}
+                {% if img %}
+                    <img src="{{ img }}" alt="{{ p.title }}" class="w-100 h-100" style="object-fit: cover;">
+                {% else %}
+                    <div class="d-flex h-100 w-100 align-items-center justify-content-center text-muted">
+                        No Image
+                    </div>
+                {% endif %}
             </div>
 
             <div class="card-body d-flex flex-column">

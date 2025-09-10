@@ -3,7 +3,12 @@
 <div class="row g-4">
     <div class="col-12 col-lg-6">
         <div class="ratio ratio-4x3 bg-light-subtle border">
-        <div class="d-flex h-100 w-100 align-items-center justify-content-center text-muted">No Image</div>
+            {% set img = p.title|img %}
+            {% if img %}
+                <img src="{{ img }}" alt="{{ p.title }}" class="w-100 h-100" style="object-fit: cover;">
+            {% else %}
+                <div class="d-flex h-100 w-100 align-items-center justify-content-center text-muted">No Image</div>
+            {% endif %}
         </div>
     </div>
     <div class="col-12 col-lg-6">
