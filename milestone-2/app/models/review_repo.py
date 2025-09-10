@@ -49,10 +49,9 @@ class ReviewRepo:
     def add(self, review: Dict) -> Dict:
         if "id" not in review or not review["id"]:
             review["id"] = self._next_id()
-        review.setdefault("created_at", datetime.utcnow().isoformat() + "Z")
+        review.setdefault("created_at", datetime.now().isoformat() + "Z")
 
         self._reviews.append(review)
         self._index[review["id"]] = review
         self._save()
         return review
-
