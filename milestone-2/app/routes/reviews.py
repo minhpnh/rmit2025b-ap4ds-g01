@@ -5,6 +5,7 @@ from ..services.ml_service import predict_recommendation
 
 bp = Blueprint("reviews", __name__)
 
+
 @bp.get("/new")
 def new_review():
     item_id = request.args.get("item_id", "").strip()
@@ -52,14 +53,16 @@ def create_review():
     recommended = int(request.form.get("recommended") or suggested)
 
     repo = ReviewRepo()
-    review = repo.add({
-        "item_id": p["id"],
-        "title": title,
-        "body": body,
-        "rating": rating,
-        "predicted": suggested,
-        "recommended": recommended,
-    })
+    review = repo.add(
+        {
+            "item_id": p["id"],
+            "title": title,
+            "body": body,
+            "rating": rating,
+            "predicted": suggested,
+            "recommended": recommended,
+        }
+    )
 
     return redirect(url_for("reviews.show", id=review["id"]))
 
@@ -70,5 +73,10 @@ def show(id):
     r = repo.get(id)
     if not r:
         return abort(404)
-    p = ProductRepo().get(r.get("item_id"))
+
+    item_id = r.get("item_id")
+    if item_id is None:
+        raise ValueError(f"Error getting item_id from {r}")
+
+    p = ProductRepo().get(item_id)
     return render_template("reviews/show.html", r=r, p=p)
