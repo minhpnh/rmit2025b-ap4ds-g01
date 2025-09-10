@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="h4 mb-3">Write a Review</h1>
+
+<div class="card">
+  <div class="card-body">
+    <form method="post" action="{{ url_for('reviews.new_review') }}">
+      <input type="hidden" name="item_id" value="{{ p.id }}">
+
+      <div class="mb-3">
+        <label class="form-label">Item</label>
+        <input type="text" class="form-control" value="{{ p.title }}" disabled>
+      </div>
+
+      <div class="mb-3">
+        <label for="title" class="form-label">Review title</label>
+        <input id="title" name="title" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="body" class="form-label">Review description</label>
+        <textarea id="body" name="body" class="form-control" rows="5" required></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label for="rating" class="form-label">Rating</label>
+        <select id="rating" name="rating" class="form-select" required>
+          <option value="">Select rating</option>
+          {% for n in range(1,6) %}
+            <option value="{{ n }}">{{ n }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="d-flex gap-2">
+        <a href="{{ url_for('catalog.item', id=p.id) }}" class="btn btn-outline-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary">Get suggestion</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
