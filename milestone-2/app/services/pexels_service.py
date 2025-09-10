@@ -1,6 +1,6 @@
-import os
 from functools import lru_cache
 from typing import Optional
+from flask import current_app
 
 import requests
 
@@ -10,13 +10,13 @@ PEXELS_API_URL = "https://api.pexels.com/v1/search"
 
 def _get_api_key() -> Optional[str]:
     # Prefer explicit env var; optionally allow Flask config via env injection
-    return os.getenv("PEXELS_API_KEY")
+    return current_app.config["PEXELS_API_KEY"]
 
 
 @lru_cache(maxsize=1024)
 def image_url_for_title(title: str) -> Optional[str]:
-    """Look up a representative image URL for a product title via Pexels.
-
+    """
+    Look up a representative image URL for a product title via Pexels.
     Returns a direct image URL (str) or None if unavailable/errors.
     Cached by title to avoid repeat network calls.
     """
@@ -43,4 +43,3 @@ def image_url_for_title(title: str) -> Optional[str]:
         return src.get("large") or src.get("medium") or src.get("original")
     except Exception:
         return None
-
