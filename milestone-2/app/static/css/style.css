@@ -1,0 +1,74 @@
+:root { 
+    --brand-blue: #2D6CFF; 
+}
+
+.product-card {
+    border: none; /* Remove the card border */
+    border-radius: 22px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Darker shadow */
+    max-width: 90%; /* Slightly smaller width */
+    height: auto; /* Adjust height dynamically */
+    padding: 0.5rem; /* Add some padding */
+    margin: auto; /* Center the card */
+}
+
+.product-card .image-frame {
+    background: #fff;
+    border-radius: 18px;
+    padding: 10px;
+}
+
+.product-card .image-frame .ratio {
+    border-radius: 10px; /* More rounded corners for the image */
+    overflow: hidden;
+    height: 300px; /* Increase the image height */
+    width: 100%; /* Maintain full width */
+}
+
+/* More specific selector to override Bootstrap */
+.card.product-card .card-body .title,
+.product-card .title {
+    color: var(--brand-blue) !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: .3px !important;
+}
+
+/* Alternative fallback without CSS custom properties */
+.card.product-card .card-body h2.title {
+    color: #2D6CFF !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: .3px !important;
+}
+
+.product-card .see-btn {
+    background: #fff;
+    border: 2px solid #DCDCDC;
+    border-radius: 999px;
+    padding: .5rem 1.25rem;
+    font-weight: 800;
+    box-shadow: 0 1px 2px rgba(0,0,0,.08);
+    width: 100px; /* Increased width */
+    text-align: center; /* Center text */
+}
+
+.product-card .see-btn:hover {
+    background: #f8f9fa;
+    text-decoration: none !important;
+}
+
+.product-card .card-footer {
+    display: flex;
+    font-weight: bold;
+    align-items: center;
+}
+
+.product-card .tags {
+    padding-bottom: 1rem; /* Add padding to the bottom of the tags */
+}
+
+.product-card .title {
+    text-transform: uppercase; /* Make the title uppercase */
+    color: #0B3EB7; /* Set the title color */
+}

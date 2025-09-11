@@ -1,63 +1,139 @@
 {% extends 'base.html' %}
+
+{% block header %}
+<div class="container my-5">
+  <div class="row align-items-center">
+    <!-- Left side: Text -->
+    <div class="col-lg-6">
+      <h1 class="display-4 fw-bold mb-3">Find Your Perfect Fit with Real Reviews</h1>
+      <p class="lead text-muted">
+        Join a community of fashion-savvy shoppers. Share your experience, help others,
+        and discover your next go-to outfit.
+      </p>
+    </div>
+
+    <!-- Right side: Image -->
+    <div class="col-lg-6 text-center text-lg-end">
+      <img src="{{ url_for('static', filename='images/whitecloth.jpg') }}"
+           alt="White Cloth"
+           class="img-fluid rounded"
+           style="max-width: 600px;">
+    </div>
+  </div>
+</div>
+{% endblock %}
+
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <h1 class="h4 m-0">Browse Items</h1>
+    <h1 class="h4 m-0">Collections</h1>
     {% if q is defined %}
     <div class="text-muted">
         {{ total }} result{{ '' if (total|int == 1) else 's' }} for <strong>"{{ q }}"</strong>
     </div>
-{% endif %}
+    {% endif %}
 </div>
-
 
 {% if products|length == 0 %}
 <div class="alert alert-warning">No items matched your search.</div>
 {% endif %}
 
-
 <div class="row g-3">
     {% for p in products %}
     <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card h-100">
-            <div class="ratio ratio-4x3 bg-light-subtle border-bottom">
-                {% set img = p.title|img %}
-                {% if img %}
+        <div class="card h-100 product-card">
+            <!-- Image with white rounded frame -->
+            <div class="p-3 pb-0">
+                <div class="image-frame">
+                <div class="ratio ratio-4x3 bg-light-subtle">
+                    {% set img = p.title|img %}
+                    {% if img %}
                     <img src="{{ img }}" alt="{{ p.title }}" class="w-100 h-100" style="object-fit: cover;">
-                {% else %}
+                    {% else %}
                     <div class="d-flex h-100 w-100 align-items-center justify-content-center text-muted">
                         No Image
                     </div>
-                {% endif %}
-            </div>
-
-            <div class="card-body d-flex flex-column">
-                <h2 class="h6 card-title mb-2">
-                    {# No q: just escape the title #}
-                    {% if not q %}
-                        {{ p.title }}
-                    {% else %}
-                        {{ p.title|hl(q) }}
                     {% endif %}
-                </h2>
-
-                <p class="card-text small text-muted flex-grow-1">
-                    {% if not q %}
-                        {{ p.description[:160] ~ '...' }}
-                    {% else %}
-                        {{ p.description[:160]|hl(q) ~ '...' }}
-                    {% endif %}
-                </p>
-
-                <div class="mt-2">
-                    <a href="{{ url_for('catalog.item', id=p.id) }}" class="btn btn-sm btn-outline-primary w-100">View details</a>
+                </div>
                 </div>
             </div>
 
-            <div class="card-footer small text-muted">
-                {{ p.division }} · {{ p.department }} · {{ p.class }}
+            <!-- Body -->
+            <div class="card-body">
+                <h2 class="h4 title mb-1">
+                {% if not q %}{{ p.title }}{% else %}{{ p.title|hl(q) }}{% endif %}
+                </h2>
+
+                <p class="text-muted mb-1">
+                {% if not q %}
+                    {{ p.description[:100] ~ '...' }}
+                {% else %}
+                    {{ p.description[:100]|hl(q) ~ '...' }}
+                {% endif %}
+                </p>
+
+            </div>
+
+            <!-- Footer with tags on the left and button on the right -->
+            <div class="card-footer bg-white border-0 d-flex justify-content-between">
+                <div class="tags">
+                    {{ p.division }} <br/> {{ p.department }} <br/> {{ p.class }}
+                </div>
+                <a href="{{ url_for('catalog.item', id=p.id) }}" class="see-btn text-dark text-decoration-none">
+                    SEE
+                </a>
             </div>
         </div>
     </div>
     {% endfor %}
 </div>
+
+<style>
+    .product-card {
+        border: none; /* Remove the card border */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Darker shadow */
+        max-width: 90%; /* Slightly smaller width */
+        height: auto; /* Adjust height dynamically */
+        padding: 0.5rem; /* Add some padding */
+        margin: auto; /* Center the card */
+    }
+
+    .product-card .image-frame .ratio {
+        border-radius: 10px; /* More rounded corners for the image */
+        overflow: hidden;
+        height: 300px; /* Increase the image height */
+        width: 100%; /* Maintain full width */
+    }
+
+    .product-card .see-btn {
+        background: #fff;
+        border: 2px solid #DCDCDC;
+        border-radius: 999px;
+        padding: .5rem 1.25rem;
+        font-weight: 800;
+        box-shadow: 0 1px 2px rgba(0,0,0,.08);
+        width: 100px; /* Increased width */
+        text-align: center; /* Center text */
+    }
+
+    .product-card .see-btn:hover {
+        background: #f8f9fa;
+        text-decoration: none !important;
+    }
+
+    .product-card .card-footer {
+        display: flex;
+        /* justify-content: space-between; */
+        font-weight: bold;
+        align-items: center;
+    }
+
+    .product-card .tags {
+        padding-bottom: 1rem; /* Add padding to the bottom of the tags */
+    }
+
+    .product-card .title {
+        text-transform: uppercase; /* Make the title uppercase */
+        color: #0B3EB7; /* Set the title color */
+    }
+</style>
 {% endblock %}
