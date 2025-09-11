@@ -64,6 +64,7 @@ from collections import Counter
 import numpy as np
 import pandas as pd
 from scipy import sparse
+from scipy.sparse import csr_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -117,10 +118,10 @@ warnings.filterwarnings("ignore", category=UserWarning)
 df = pd.read_csv("../output/processed.csv")
 
 # Keep only non-empty processed token lists
-df = df[df["tokens_typo_fixed"].str.strip().astype(bool)]
+df = df[df["processed_tokens"].str.strip().astype(bool)]
 
 # Convert the cleaned tokens back into review strings (space-joined)
-reviews = df["tokens_typo_fixed"].astype(str).tolist()
+reviews = df["processed_tokens"].astype(str).tolist()
 
 print("Head of processed reviews:")
 print(reviews[:5])
@@ -1124,7 +1125,7 @@ else:
     titles_raw = pd.Series([''] * len(df), index=df.index)
 
 # Text corpus from your processed tokens (already cleaned in Task 1)
-texts_clean = df['tokens_typo_fixed'].fillna('').astype(str)
+texts_clean = df['processed_tokens'].fillna('').astype(str)
 
 # Tokenize title with the same regex rule to keep consistency
 titles_clean = titles_raw.apply(lambda s: " ".join(tokenize(s)))
@@ -1340,7 +1341,7 @@ plt.show()
 # %%
 # Inputs (recreate safely)
 titles_raw = df['Title'].fillna('').astype(str) if 'Title' in df.columns else pd.Series(['']*len(df), index=df.index)
-texts_clean = df['tokens_typo_fixed'].fillna('').astype(str)  # from Task 1
+texts_clean = df['processed_tokens'].fillna('').astype(str)  # from Task 1
 titles_clean = titles_raw.apply(lambda s: " ".join(tokenize(s)))
 combo_clean = (titles_clean.str.cat(texts_clean, sep=" ")
                .str.replace(r"\s+", " ", regex=True).str.strip())
