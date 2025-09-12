@@ -4,6 +4,7 @@ from .config import DevConfig
 from .routes.catalog import bp as catalog_bp
 from .routes.search import bp as search_bp
 from .routes.reviews import bp as reviews_bp
+from .routes.home import bp_home  # Import the home blueprint
 from .services.pexels_service import image_url_for_title
 from .services.search_service import highlight
 from .services.supabase_service import connect_to_db
@@ -31,6 +32,7 @@ def create_app(config_object=DevConfig):
     app.register_blueprint(catalog_bp)
     app.register_blueprint(search_bp, url_prefix="/search")
     app.register_blueprint(reviews_bp, url_prefix="/reviews")
+    app.register_blueprint(bp_home)  # Register the home blueprint
 
     # Create supabase Client as a Flask app attribute
     setattr(app, "supabase", connect_to_db(app.config["SUPABASE_KEY"]))

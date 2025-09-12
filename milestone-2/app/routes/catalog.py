@@ -4,7 +4,7 @@ from ..models.review_repo import ReviewRepo
 
 bp = Blueprint("catalog", __name__)
 
-@bp.get("/")
+@bp.get("/catalog")
 def index():
     repo = ProductRepo()
     products = repo.first_n(24)
