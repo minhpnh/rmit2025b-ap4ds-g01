@@ -1,6 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1 class="h4 mb-3">Write a Review</h1>
+<style>
+  .write-title {
+      color: #104163 !important; /* Your brand blue */
+      font-weight: 800;
+  }
+
+  .btn-suggestion {
+      background: #3E6F91; /* Your brand blue */
+      border-color: #3E6F91;
+      color: white;
+  }
+</style>
+
+<h1 class="h4 mb-3 write-title">Write a Review</h1>
 
 <div class="card">
   <div class="card-body">
@@ -34,7 +47,7 @@
 
       <div class="d-flex gap-2">
         <a href="{{ url_for('catalog.item', id=p.id) }}" class="btn btn-outline-secondary">Cancel</a>
-        <button type="submit" class="btn btn-primary">Get suggestion</button>
+        <button type="submit" class="btn btn-suggestion">Get suggestion</button>
       </div>
     </form>
   </div>

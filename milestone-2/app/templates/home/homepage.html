@@ -1,0 +1,309 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    /* HERO SECTION */
+    .text-section {
+        padding: 60px 0 40px 0;
+        background: white;
+    }
+    
+    .hero-subtitle {
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #7f8c8d;
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+    
+    .hero-title {
+        font-size: 4rem;
+        font-weight: 500;
+        font-family: 'Playfair Display', serif;
+        color: #2c3e50;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+    }
+    
+    .hero-text {
+        font-size: 1.125rem;
+        color: #34495e;
+        line-height: 1.6;
+        max-width: 600px;
+    }
+    
+    .hero-section {
+        position: relative;
+        height: 50vh;
+        min-height: 400px;
+        background: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0.1)), 
+                    url('{{ url_for("static", filename="images/DesertBg.jpg") }}');
+        background-size: cover;
+        background-position: center;
+        /* overflow: hidden; */
+    }
+    
+    .hero-image {
+        position: absolute;
+        right: 5%;
+        bottom: 0;
+        height: 150%;
+        width: auto;
+        z-index: 2;
+        object-fit: contain;
+    }
+    
+    @media (max-width: 992px) {
+        .hero-title {
+            font-size: 2.8rem;
+        }
+        
+        .hero-image {
+            right: 5%;
+            top: -80px;
+            height: calc(100% + 120px);
+        }
+        
+        .hero-text {
+            margin-left: 0;
+            margin-top: 2rem;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2.2rem;
+        }
+        
+        .hero-section {
+            height: 40vh;
+            min-height: 300px;
+        }
+        
+        .hero-image {
+            right: 0;
+            top: -60px;
+            height: calc(100% + 100px);
+            width: 50%;
+            object-fit: cover;
+        }
+        
+        .text-section {
+            padding: 40px 0 30px 0;
+        }
+        
+        .hero-text {
+            margin-left: 0;
+            margin-top: 1.5rem;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .hero-title {
+            font-size: 1.8rem;
+        }
+        
+        .hero-image {
+            width: 60%;
+            top: -40px;
+            height: calc(100% + 80px);
+        }
+    }
+
+    /* VISSION SECTION */
+    .mission-3col {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 40px;
+        padding: 80px 5vw;
+        align-items: center;
+        background: white;
+    }
+
+    .mission-text h1 {
+        font-size: 4rem;
+        font-family: 'Playfair Display', serif;
+        margin-bottom: 20px;
+        color: #2c3e50;
+        line-height: 1.1;
+    }
+
+    .mission-text p {
+        font-size: 1.125rem;
+        color: #333;
+        line-height: 1.8;
+    }
+
+    .mission-image {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+
+    .mission-caption {
+        font-size: 1.125rem;
+        color: #2c3e50;
+        margin-top: 12px;
+        line-height: 1.6;
+        text-align: left;
+    }
+
+    .image-caption-group {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    @media (max-width: 992px) {
+        .mission-3col {
+        grid-template-columns: 1fr;
+        text-align: center;
+        }
+
+        .image-caption-group {
+        align-items: center;
+        }
+
+        .mission-caption {
+        text-align: center;
+        }
+
+        .mission-text h1 {
+        font-size: 2.8rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .mission-text h1 {
+        font-size: 2.2rem;
+        }
+    }
+
+    /* SEE MORE SECTION */
+      .see-more-section {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 60px 5vw;
+        gap: 40px;
+    }
+
+    .see-more-section img {
+        max-width: 500px;
+        width: 100%;
+        border-radius: 16px;
+        object-fit: cover;
+    }
+
+    .see-more-content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        max-width: 400px;
+    }
+
+    .see-more-content p {
+        font-size: 1.125rem;
+        color: #333;
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    .see-more-btn {
+        padding: 12px 24px;
+        font-size: 1rem;
+        background-color: #3E6F91;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        text-decoration: none;
+    }
+
+    .see-more-btn:hover {
+        background-color: #104163;
+    }
+
+    @media (max-width: 768px) {
+        .see-more-section {
+        flex-direction: column;
+        text-align: center;
+        }
+
+        .see-more-content {
+        align-items: center;
+        }
+
+        .see-more-btn {
+        width: 100%;
+        max-width: 200px;
+        }
+    }
+</style>
+
+<!-- Text Section Above -->
+<div class="text-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="hero-subtitle">FASHION</div>
+                <h1 class="hero-title">Real Reviews. Real Style</h1>
+            </div>
+            <div>
+                <p class="hero-text">
+                    Because your style deserves more than just marketing.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hero Background Section with Person Image -->
+<div class="hero-section">
+    <img src="{{ url_for('static', filename='images/BeigePeople.png') }}" 
+         alt="Fashion Model" 
+         class="hero-image">
+</div>
+
+<!-- OUR MISSION SECTION -->
+<div class="mission-3col">
+  <!-- Column 1: Text -->
+  <div class="mission-text">
+    <h1>OUR<br>MISSION</h1>
+    <p>
+      Real style starts with real voices. At TryOn, we bring fashion to life 
+      through honest reviews from everyday people who’ve worn it, loved it, or left it behind.
+    </p>
+  </div>
+
+  <!-- Column 2: Center Image -->
+  <div>
+    <img src="{{ url_for('static', filename='images/Yellow.jpeg') }}" alt="Model 1" class="mission-image">
+  </div>
+
+  <!-- Column 3: Image + caption -->
+  <div class="image-caption-group">
+    <img src="{{ url_for('static', filename='images/Black.jpeg') }}" alt="Model 2" class="mission-image">
+    <p class="mission-caption">
+      Whether you're searching for the perfect fit, the softest fabric, or the trend that actually lasts, 
+      our community helps you shop smarter. Trust real experiences. Discover fashion that fits you.
+    </p>
+  </div>
+</div>
+
+<!-- SEE MORE SECTION -->
+<div class="see-more-section">
+  <!-- Left: Image -->
+  <img src="{{ url_for('static', filename='images/SeeMore.jpg') }}" alt="See More">
+
+  <!-- Right: Text + Button -->
+  <div class="see-more-content">
+    <p>
+      Explore more styles, fits, and real experiences from our community. Find your next favorite look.
+    </p>
+    <a href="/catalog" class="see-more-btn">See More</a>
+  </div>
+</div>
+
+{% endblock %}
