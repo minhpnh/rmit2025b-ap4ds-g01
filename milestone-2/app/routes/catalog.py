@@ -4,11 +4,15 @@ from ..models.review_repo import ReviewRepo
 
 bp = Blueprint("catalog", __name__)
 
+
 @bp.get("/catalog")
 def index():
     repo = ProductRepo()
     products = repo.first_n(24)
+    for p in products:
+        p["recommended_count"] = repo.count_recommended_reviews(p["id"])
     return render_template("catalog/index.html", products=products)
+
 
 @bp.get("/item/<id>")
 def item(id):

@@ -20,3 +20,13 @@ class ProductRepo:
             .execute()
         )
         return res.data if res.data else None
+
+    def count_recommended_reviews(self, product_id: str) -> int:
+        res = (
+            current_app.supabase.table("reviews")  # type: ignore
+            .select("id", count="exact")  # count rows explicitly
+            .eq("item_id", product_id)
+            .eq("recommended", 1)
+            .execute()
+        )
+        return res.count or 0
