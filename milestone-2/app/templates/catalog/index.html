@@ -79,11 +79,11 @@
                 {{ p.division }} <br/> {{ p.department }} <br/> {{ p.class }}
               </div>
               <div class="d-flex flex-column">
-                <a href="{{ url_for('catalog.item', id=p.id) }}" class="see-btn text-dark text-decoration-none float-end">
+                <a href="{{ url_for('catalog.item', id=p.id) }}" class="see-btn text-dark text-decoration-none ms-auto">
                   SEE
                 </a>
                 <p class="mb-0 text-muted text-end">
-                {{ p.recommended_count }} recommend 👍
+                  {{ p.recommended_count }} recommend
                 </p>
               </div>
             </div>
