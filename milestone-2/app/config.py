@@ -7,6 +7,7 @@ class BaseConfig:
     PRODUCTS_CSV = os.getenv("PRODUCTS_CSV", os.path.join("data", "webData.csv"))
     REVIEWS_JSON = os.getenv("REVIEWS_JSON", os.path.join("instance", "reviews.json"))
     SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+    HUGGINGFACE_TOKEN = os.getenv("HUGGINGFACE_TOKEN")
 
 
 class DevConfig(BaseConfig):
