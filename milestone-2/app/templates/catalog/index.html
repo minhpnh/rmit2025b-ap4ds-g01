@@ -60,7 +60,8 @@
             <!-- Body -->
             <div class="card-body">
                 <h2 class="h4 title mb-1">
-                {% if not q %}{{ p.title }}{% else %}{{ p.title|hl(q) }}{% endif %}
+                  {% if not q %}{{ p.title }}{% else %}{{ p.title|hl(q) }}{% endif %}
+                  <span class="text-muted">#{{ p.id }}</span>
                 </h2>
 
                 <p class="text-muted mb-1">
@@ -70,17 +71,21 @@
                     {{ p.description[:100]|hl(q) ~ '...' }}
                 {% endif %}
                 </p>
-
             </div>
 
             <!-- Footer with tags on the left and button on the right -->
             <div class="card-footer bg-white border-0 d-flex justify-content-between">
-                <div class="tags">
-                    {{ p.division }} <br/> {{ p.department }} <br/> {{ p.class }}
-                </div>
-                <a href="{{ url_for('catalog.item', id=p.id) }}" class="see-btn text-dark text-decoration-none">
+              <div class="tags">
+                {{ p.division }} <br/> {{ p.department }} <br/> {{ p.class }}
+              </div>
+                <div class="d-flex flex-column align-items-end">
+                  <a href="{{ url_for('catalog.item', id=p.id) }}" class="see-btn text-dark text-decoration-none">
                     SEE
-                </a>
+                  </a>
+                  <p class="mb-0 text-muted text-end">
+                    {{ p.recommended_count }} recommend
+                  </p>
+                </div>
             </div>
         </div>
     </div>
