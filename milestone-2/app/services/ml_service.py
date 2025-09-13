@@ -1,18 +1,51 @@
 import re
+from ..ml_helpers.tokenizer import Tokenizer
+from ..ml_helpers.vectorizer import CountVectorizer, FastTextVectorizer
 
 
 POSITIVE = {
-    "good", "great", "excellent", "amazing", "love", "loved", "like", "liked",
-    "perfect", "nice", "happy", "satisfied", "recommend", "recommendation",
+    "good",
+    "great",
+    "excellent",
+    "amazing",
+    "love",
+    "loved",
+    "like",
+    "liked",
+    "perfect",
+    "nice",
+    "happy",
+    "satisfied",
+    "recommend",
+    "recommendation",
 }
 NEGATIVE = {
-    "bad", "terrible", "awful", "hate", "hated", "poor", "worse", "worst",
-    "broken", "disappoint", "disappointed", "return", "refund", "not", "never",
+    "bad",
+    "terrible",
+    "awful",
+    "hate",
+    "hated",
+    "poor",
+    "worse",
+    "worst",
+    "broken",
+    "disappoint",
+    "disappointed",
+    "return",
+    "refund",
+    "not",
+    "never",
 }
 
 
 def _tokens(text: str) -> set[str]:
     return set(re.findall(r"\b\w+\b", (text or "").lower()))
+
+
+def _test():
+    tokenizer = Tokenizer()
+    foo = CountVectorizer()
+    bar = FastTextVectorizer()
 
 
 def predict_recommendation(title: str, body: str) -> int:
@@ -30,3 +63,5 @@ def predict_recommendation(title: str, body: str) -> int:
     # Tie-breaker: default to recommend if rating tends to be positive is unknown here.
     return 1
 
+
+_test()

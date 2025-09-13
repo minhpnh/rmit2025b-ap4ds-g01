@@ -1,5 +1,4 @@
 import nltk
-import fasttext.util
 
+# Download nltk WordNet
 nltk.download("wordnet", quiet=True)
-# fasttext.util.download_model("en", if_exists="ignore")  # English

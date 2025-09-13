@@ -2,6 +2,7 @@ import re
 from nltk.stem import WordNetLemmatizer
 from spellchecker import SpellChecker
 from typing import Dict, List
+from flask import current_app
 
 
 class Tokenizer:
@@ -12,7 +13,7 @@ class Tokenizer:
         self.spell = SpellChecker()
 
         # You’ll probably want to load your stopwords, ignore_words, approved_fixes, etc.
-        with open("../../data/stopwords_en.txt", "r", encoding="utf-8") as f:
+        with open("./data/stopwords_en.txt", "r", encoding="utf-8") as f:
             self.stopwords = {line.strip().lower() for line in f if line.strip()}
 
         self.approved_fixes = {
