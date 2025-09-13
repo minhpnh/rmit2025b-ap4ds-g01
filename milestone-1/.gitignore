@@ -33,7 +33,6 @@ Thumbs.db
 *.h5
 *.pth
 *.pt
-*.joblib
 
 # Logs and temp files
 *.log
