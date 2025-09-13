@@ -1,5 +1,5 @@
 {
-  "exported_at": "20250913-221828",
+  "exported_at": "20250913-223732",
   "pipeline": "bow_title+text_nb",
   "rep": "BoW",
   "input": "Title+Text (concatenated string, space-separated tokens in Text)",
