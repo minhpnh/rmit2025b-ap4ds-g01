@@ -10,6 +10,31 @@ from .ml_helpers.vectorizer import download_embedding_model, load_idf_weights
 from .services.pexels_service import image_url_for_title
 from .services.search_service import highlight
 from .services.supabase_service import connect_to_db
+from huggingface_hub import hf_hub_download
+from pathlib import Path
+
+
+def download_embedding_model(hf_token):
+    # Download fasttext 300 dimensions english pretrained embedding model
+    filename = "fasttext_thin.kv.vectors_ngrams.npy"
+    data_dir = Path("./data")  # relative to root
+    # data_dir.mkdir(exist_ok=True)  # create folder if it doesn't exist
+    file_path = data_dir / filename
+
+    if not file_path.exists():
+        token = hf_token
+        repo_id = "tsun2610/FastText-english-text-vectors"
+
+        hf_hub_download(
+            repo_id=repo_id,
+            filename=filename,
+            token=token,
+            local_dir=data_dir,  # only the directory, not the full file path
+        )
+
+        print("Downloaded fasttext model sucessfully")
+    else:
+        print("Vector file already exists.")
 
 
 def create_app(config_object=DevConfig):
@@ -37,7 +62,7 @@ def create_app(config_object=DevConfig):
     app.register_blueprint(bp_home)  # Register the home blueprint
 
     # ML Helpers
-    download_embedding_model(app.config["HUGGING_FACE_TOKEN"])
+    download_embedding_model(app.config["HUGGINGFACE_TOKEN"])
     setattr(
         app,
         "idf_dict",
@@ -66,5 +91,7 @@ def create_app(config_object=DevConfig):
 
     # Create supabase Client as a Flask app attribute
     setattr(app, "supabase", connect_to_db(app.config["SUPABASE_KEY"]))
+
+    download_embedding_model(app.config)
 
     return app

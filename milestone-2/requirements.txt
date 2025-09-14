@@ -20,7 +20,6 @@ hyperframe==6.1.0
 idna==3.10
 itsdangerous==2.2.0
 Jinja2==3.1.6
-joblib==1.5.2
 MarkupSafe==3.0.2
 nltk==3.9.1
 numpy==2.3.3
@@ -29,12 +28,10 @@ postgrest==1.1.1
 pydantic==2.11.9
 pydantic_core==2.33.2
 PyJWT==2.10.1
-pyspellchecker==0.8.3
 python-dateutil==2.9.0.post0
 python-dotenv==1.1.1
 PyYAML==6.0.2
 realtime==2.7.0
-regex==2025.9.1
 requests==2.32.5
 scikit-learn==1.7.1
 scipy==1.16.2

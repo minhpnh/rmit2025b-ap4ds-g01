@@ -6,22 +6,6 @@ from app.ml_helpers.vectorizer import FastTextVectorizer
 from ..ml_helpers.classification_model import VectorType, predict_review
 
 
-# def predict_recommendation(title: str, body: str) -> int:
-#     """Heuristic placeholder: positive vs negative token count.
-#
-#     Returns 1 for recommend, 0 for not recommend.
-#     """
-#     toks = _tokens(title) | _tokens(body)
-#     pos = len(toks & POSITIVE)
-#     neg = len(toks & NEGATIVE)
-#     if neg > pos:
-#         return 0
-#     if pos > neg:
-#         return 1
-#     # Tie-breaker: default to recommend if rating tends to be positive is unknown here.
-#     return 1
-
-
 def predict_recommendation(title: str, body: str) -> int:
     full_review = title + " " + body
 
