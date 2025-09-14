@@ -2,7 +2,6 @@ from huggingface_hub import hf_hub_download
 from pathlib import Path
 import numpy as np
 import json
-from pathlib import Path
 
 
 def download_embedding_model(hf_token):

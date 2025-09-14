@@ -1,6 +1,5 @@
 from collections import Counter
 from flask import current_app
-import numpy as np
 
 from app.ml_helpers.vectorizer import FastTextVectorizer
 from ..ml_helpers.classification_model import VectorType, predict_review

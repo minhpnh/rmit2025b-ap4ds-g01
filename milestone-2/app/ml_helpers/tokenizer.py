@@ -1,7 +1,7 @@
 import re
 from nltk.stem import WordNetLemmatizer
 from spellchecker import SpellChecker
-from typing import Dict, List
+from typing import List
 
 
 class Tokenizer:
