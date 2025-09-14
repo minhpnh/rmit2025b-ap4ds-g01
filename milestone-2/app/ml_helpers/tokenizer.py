@@ -2,7 +2,6 @@ import re
 from nltk.stem import WordNetLemmatizer
 from spellchecker import SpellChecker
 from typing import Dict, List
-from flask import current_app
 
 
 class Tokenizer:
@@ -866,15 +865,14 @@ class Tokenizer:
                 fixed.append(t)
         return fixed
 
-    def process_review(self, review: Dict) -> Dict:
+    def process_review(self, review) -> List[str]:
         """
         Given a review dict with at least {"Review Text": "..."},
         return the processed tokens and processed text.
         """
-        raw_text = str(review.get("title", "")) + " " + str(review.get("body", ""))
 
         # Tokenize
-        tokens = self.token_pattern.findall(raw_text)
+        tokens = self.token_pattern.findall(review)
 
         # Lowercase
         tokens = [t.lower() for t in tokens]
@@ -891,8 +889,4 @@ class Tokenizer:
         # Fix typos
         tokens = self._apply_typo_fixes(tokens)
 
-        return {
-            "original": raw_text,
-            "tokens": tokens,
-            "processed_text": " ".join(tokens),
-        }
+        return tokens
