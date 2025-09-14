@@ -7,8 +7,8 @@ import json
 def download_embedding_model(hf_token):
     # Download custom fasttext pretrained embedding model
     filename = "fasttext_thin.kv.vectors_ngrams.npy"
-    data_dir = Path("./data")  # relative to root
-    # data_dir.mkdir(exist_ok=True)  # create folder if it doesn't exist
+    data_dir = Path("./app/ml_models")  # store under app assets
+    data_dir.mkdir(parents=True, exist_ok=True)
     file_path = data_dir / filename
 
     if not file_path.exists():

@@ -29,3 +29,19 @@ class ReviewRepo:
     def add(self, review: Dict) -> Dict:
         res = current_app.supabase.table("reviews").insert(review).execute()  # type: ignore
         return res.data[0]
+
+    def recommended_counts_for_items(self, item_ids: List[str]) -> Dict[str, int]:
+        if not item_ids:
+            return {}
+        res = (
+            current_app.supabase.table("reviews")  # type: ignore
+            .select("item_id")
+            .in_("item_id", item_ids)
+            .eq("recommended", 1)
+            .execute()
+        )
+        counts: Dict[str, int] = {}
+        for row in res.data or []:
+            pid = str(row.get("item_id"))
+            counts[pid] = counts.get(pid, 0) + 1
+        return counts

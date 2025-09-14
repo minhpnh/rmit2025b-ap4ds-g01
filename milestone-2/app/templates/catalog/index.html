@@ -26,71 +26,77 @@
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="h4 m-0">Collections</h1>
-    {% if q is defined %}
-    <div class="text-muted">
-        {{ total }} result{{ '' if (total|int == 1) else 's' }} for <strong>"{{ q }}"</strong>
+  </div>
+
+  <form method="get" action="{{ url_for('catalog.index') }}" class="row gx-2 gy-2 align-items-end mb-2">
+    <div class="col-12 col-lg-4">
+      <label class="form-label">Search</label>
+      <input type="text" class="form-control" name="q" placeholder="Search products" value="{{ q or '' }}" />
     </div>
+    <div class="col-6 col-md-2">
+      <label class="form-label">Division</label>
+      <select class="form-select" name="division">
+        <option value="">All</option>
+        {% for d in divisions or [] %}
+          <option value="{{ d }}" {% if filters and filters['division'] == d %}selected{% endif %}>{{ d }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-6 col-md-2">
+      <label class="form-label">Department</label>
+      <select class="form-select" name="department">
+        <option value="">All</option>
+        {% for d in departments or [] %}
+          <option value="{{ d }}" {% if filters and filters['department'] == d %}selected{% endif %}>{{ d }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-6 col-md-2">
+      <label class="form-label">Category</label>
+      <select class="form-select" name="class">
+        <option value="">All</option>
+        {% for c in classes or [] %}
+          <option value="{{ c }}" {% if filters and filters['class'] == c %}selected{% endif %}>{{ c }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-6 col-md-2">
+      <label class="form-label">Sort</label>
+      <select class="form-select" name="sort">
+        <option value="">Default</option>
+        <option value="most_recommended" {% if filters and filters['sort'] == 'most_recommended' %}selected{% endif %}>Most Recommended</option>
+      </select>
+    </div>
+    <div class="col-12 col-md-auto">
+      <button type="submit" class="btn btn-brand">Apply</button>
+    </div>
+  </form>
+
+  <div class="mb-3">
+    {% if q is defined %}
+      <div class="text-muted">
+        {{ total }} result{{ '' if (total|int == 1) else 's' }}{% if q %} for <strong>"{{ q }}"</strong>{% endif %}
+      </div>
     {% endif %}
-</div>
+  </div>
 
 {% if products|length == 0 %}
 <div class="alert alert-warning">No items matched your search.</div>
 {% endif %}
 
-<div class="row g-3">
-    {% for p in products %}
-    <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card h-100 product-card">
-            <!-- Image with white rounded frame -->
-            <div class="p-3 pb-0">
-                <div class="image-frame">
-                <div class="ratio ratio-4x3 bg-light-subtle">
-                    {% set img = p.title|img %}
-                    {% if img %}
-                    <img src="{{ img }}" alt="{{ p.title }}" class="w-100 h-100" style="object-fit: cover;">
-                    {% else %}
-                    <div class="d-flex h-100 w-100 align-items-center justify-content-center text-muted">
-                        No Image
-                    </div>
-                    {% endif %}
-                </div>
-                </div>
-            </div>
+<div id="catalog-items" class="row g-3">
+  {% include 'catalog/_items.html' %}
+  </div>
 
-            <!-- Body -->
-            <div class="card-body">
-                <h2 class="h4 title mb-1">
-                  {% if not q %}{{ p.title }}{% else %}{{ p.title|hl(q) }}{% endif %}
-                  <span class="text-muted">#{{ p.id }}</span>
-                </h2>
-
-                <p class="text-muted mb-1">
-                {% if not q %}
-                    {{ p.description[:100] ~ '...' }}
-                {% else %}
-                    {{ p.description[:100]|hl(q) ~ '...' }}
-                {% endif %}
-                </p>
-            </div>
-
-            <!-- Footer with tags on the left and button on the right -->
-            <div class="card-footer bg-white border-0 d-flex justify-content-between">
-              <div class="tags">
-                {{ p.division }} <br/> {{ p.department }} <br/> {{ p.class }}
-              </div>
-              <div class="d-flex flex-column">
-                <a href="{{ url_for('catalog.item', id=p.id) }}" class="see-btn text-dark text-decoration-none ms-auto">
-                  SEE
-                </a>
-                <p class="mb-0 text-muted text-end">
-                  {{ p.recommended_count }} recommend
-                </p>
-              </div>
-            </div>
-        </div>
-    </div>
-    {% endfor %}
-</div>
+  {% if has_next %}
+  <div class="text-center mt-4">
+    <button id="load-more" class="btn btn-outline-brand"
+            data-next-page="{{ page + 1 }}"
+            data-per-page="{{ per_page }}">
+      Load more
+    </button>
+  </div>
+  {% endif %}
 
 <style>
     .product-card {
@@ -109,21 +115,7 @@
         width: 100%; /* Maintain full width */
     }
 
-    .product-card .see-btn {
-        background: #fff;
-        border: 2px solid #DCDCDC;
-        border-radius: 999px;
-        padding: .5rem 1.25rem;
-        font-weight: 800;
-        box-shadow: 0 1px 2px rgba(0,0,0,.08);
-        width: 100px; /* Increased width */
-        text-align: center; /* Center text */
-    }
-
-    .product-card .see-btn:hover {
-        background: #f8f9fa;
-        text-decoration: none !important;
-    }
+    /* Buttons inherit global .btn-brand / .btn-outline-brand */
 
     .product-card .card-footer {
         display: flex;
@@ -141,4 +133,38 @@
         color: #104163; /* Set the title color */
     }
 </style>
+<script>
+  (function(){
+    const btn = document.getElementById('load-more');
+    if(!btn) return;
+    const itemsEl = document.getElementById('catalog-items');
+    const baseParams = new URLSearchParams(window.location.search);
+
+    btn.addEventListener('click', async function(){
+      btn.disabled = true;
+      btn.textContent = 'Loading...';
+      const page = btn.getAttribute('data-next-page');
+      const perPage = btn.getAttribute('data-per-page') || '24';
+      const params = new URLSearchParams(baseParams.toString());
+      params.set('page', page);
+      params.set('per_page', perPage);
+      try {
+        const resp = await fetch(`{{ url_for('catalog.data') }}?${params.toString()}`);
+        const data = await resp.json();
+        itemsEl.insertAdjacentHTML('beforeend', data.items_html);
+        if (data.has_next && data.next_page){
+          btn.setAttribute('data-next-page', data.next_page);
+          btn.disabled = false;
+          btn.textContent = 'Load more';
+        } else {
+          btn.remove();
+        }
+      } catch(err){
+        console.error(err);
+        btn.disabled = false;
+        btn.textContent = 'Load more';
+      }
+    });
+  })();
+  </script>
 {% endblock %}

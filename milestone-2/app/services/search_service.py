@@ -12,7 +12,10 @@ def tokenize(text: str) -> set[str]:
     return {stem(w) for w in re.findall(r"\b\w+\b", text.lower())}
 
 def match_query(product: dict, q_tokens: set[str]) -> bool:
-    """Return True if any stemmed query token appears in product fields.
+    """Return True if the query loosely matches product fields.
+
+    Supports partial typing like "dre" → "dress" via substring match,
+    and also falls back to simple stem-token overlap.
 
     Fields searched: title, description, division, department, class, id.
     """
@@ -26,6 +29,12 @@ def match_query(product: dict, q_tokens: set[str]) -> bool:
         str(product.get("class", "")),
         str(product.get("id", "")),
     ])
+    haystack_lc = haystack.lower()
+    # Substring dynamic match
+    for qt in q_tokens:
+        if qt and qt in haystack_lc:
+            return True
+    # Fallback to stem-token overlap
     tokens = tokenize(haystack)
     return bool(tokens & q_tokens)
 

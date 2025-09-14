@@ -26,7 +26,8 @@ def predict_recommendation(title: str, body: str) -> int:
 
     ft_model = FastTextVectorizer(current_app.idf_dict)  # type: ignore
     ft_model.load_model(
-        "./data/fasttext_thin.kv.vectors_ngrams.npy", "./data/vocab.txt"
+        "./app/ml_models/fasttext_thin.kv.vectors_ngrams.npy",
+        "./app/ml_models/vocab.txt",
     )
 
     # --- Model 3:  ---
