@@ -3,3 +3,4 @@ venv/
 __pycache__/
 .env
 data/wiki-news-300d-1M-subword.vec
+data/fasttext_thin.kv.vectors_ngrams.npy

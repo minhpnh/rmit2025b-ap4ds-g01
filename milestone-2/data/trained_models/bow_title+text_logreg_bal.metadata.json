@@ -1,0 +1,19 @@
+{
+  "pipeline": "bow_title+text_logreg_bal.joblib",
+  "type": "BoW",
+  "input_expected": "Single string: Title tokens + space + processed_text_tokens",
+  "vectorizer": {
+    "CountVectorizer_fixed_vocab": true,
+    "vocab_size": 6548,
+    "vocab_md5": "b05ed0c0072bd94f182942b4911686ff"
+  },
+  "classifier": "LogisticRegression (balanced)",
+  "target": {
+    "name": "Recommended IND",
+    "classes": [
+      0,
+      1
+    ]
+  },
+  "notes": "Preprocess the same as Task-1 to create processed_text_tokens."
+}
