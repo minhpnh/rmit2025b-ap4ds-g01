@@ -1,0 +1,24 @@
+{
+  "pipeline": "emb_logreg_bal_weighted.joblib",
+  "type": "Embeddings",
+  "input_expected": "NumPy vector of shape (VECTOR_DIM,) computed from Title+Text tokens",
+  "embedding": {
+    "kv_file": "fasttext_thin.kv",
+    "vector_dim": 50,
+    "weighted_tfidf": true,
+    "idf_file": "idf_weights.json"
+  },
+  "classifier": "LogisticRegression (balanced)",
+  "target": {
+    "name": "Recommended IND",
+    "classes": [
+      0,
+      1
+    ]
+  },
+  "notes": [
+    "Tokenize title with assignment regex; text is Task-1 space-joined tokens.",
+    "Unweighted: average kv[w] for in-vocab tokens.",
+    "Weighted: average kv[w]*idf[w] with weights from idf_weights.json."
+  ]
+}

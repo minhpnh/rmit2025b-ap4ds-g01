@@ -33,6 +33,9 @@ Thumbs.db
 *.h5
 *.pth
 *.pt
+*.joblib
+*.kv
+*.npy
 
 # Logs and temp files
 *.log
